@@ -12,21 +12,20 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 @Slf4j
-@Getter
 @Component
 public class BoardsProvider {
 
     private final List<Board> boards = new ArrayList<>();
     private final Lock lock = new ReentrantLock(true);
 
-    private Optional<Board> getBoard(String boardName) {
+    public Optional<Board> getBoard(String boardName) {
         return boards.stream()
                 .filter(board -> board.getName().equals(boardName))
                 .findFirst();
     }
 
 
-    private void addBoard(Board board) {
+    public void addBoard(Board board) {
         try {
             lock.lock();
             Optional<Board> optionalBoard = getBoard(board.getName());
@@ -42,5 +41,8 @@ public class BoardsProvider {
 
     }
 
+    public List<Board> getBoards() {
+        return boards;
+    }
 }
 
